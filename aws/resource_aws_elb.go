@@ -519,9 +519,14 @@ func resourceAwsElbUpdate(d *schema.ResourceData, meta interface{}) error {
 				Listeners:        add,
 			}
 
+			waitForReadyTimeOut, err := time.ParseDuration(d.Get("wait_for_ready_timeout").(string))
+			if err != nil {
+				return err
+			}
+
 			// Occasionally AWS will error with a 'duplicate listener', without any
 			// other listeners on the ELB. Retry here to eliminate that.
-			err := resource.Retry(5*time.Minute, func() *resource.RetryError {
+			err = resource.Retry(waitForReadyTimeOut, func() *resource.RetryError {
 				log.Printf("[DEBUG] ELB Create Listeners opts: %s", createListenersOpts)
 				if _, err := elbconn.CreateLoadBalancerListeners(createListenersOpts); err != nil {
 					if awsErr, ok := err.(awserr.Error); ok {
@@ -773,8 +778,13 @@ func resourceAwsElbUpdate(d *schema.ResourceData, meta interface{}) error {
 				Subnets:          added,
 			}
 
+			waitForReadyTimeOut, err := time.ParseDuration(d.Get("wait_for_ready_timeout").(string))
+			if err != nil {
+				return err
+			}
+
 			log.Printf("[DEBUG] ELB attach subnets opts: %s", attachOpts)
-			err := resource.Retry(5*time.Minute, func() *resource.RetryError {
+			err = resource.Retry(waitForReadyTimeOut, func() *resource.RetryError {
 				_, err := elbconn.AttachLoadBalancerToSubnets(attachOpts)
 				if err != nil {
 					if awsErr, ok := err.(awserr.Error); ok {
