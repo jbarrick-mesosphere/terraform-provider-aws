@@ -32,12 +32,8 @@ require (
 	github.com/terraform-providers/terraform-provider-tls v1.2.0
 	github.com/uber/jaeger-client-go v2.16.0+incompatible
 	github.com/uber/jaeger-lib v2.0.0+incompatible
-	go.uber.org/atomic v1.3.2 // indirect
-	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1
-	google.golang.org/grpc v0.0.0-20171025225919-b5eab4ccac6d // indirect
-	gopkg.in/inf.v0 v0.9.1 // indirect
-	gopkg.in/yaml.v2 v2.2.1
+	gopkg.in/yaml.v2 v2.2.2
 	k8s.io/apimachinery v0.0.0-20190204010555-a98ff070d70e // indirect
 	k8s.io/client-go v10.0.0+incompatible // indirect
 	k8s.io/klog v0.1.0 // indirect
